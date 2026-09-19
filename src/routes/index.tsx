@@ -57,7 +57,7 @@ function Proposal() {
     const measure = () => {
       frame = 0;
       const readingLine = 180; // a little below the sticky top bar
-      let winner = chapters[0];
+      let winner = chapters[0]!;
 
       for (const chapter of chapters) {
         if (chapter.getBoundingClientRect().top <= readingLine) winner = chapter;
