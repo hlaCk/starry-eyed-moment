@@ -44,7 +44,8 @@ function Proposal() {
   const storyRef = useRef<HTMLElement | null>(null);
 
   // Keep the top bar's chapter counter in step with wherever she has scrolled:
-  // the chapter with the most of its height on screen wins.
+  // Keep the top bar's chapter counter in step with wherever she is reading:
+  // the last chapter to have passed a third of the way down the screen.
   useEffect(() => {
     const chapters = Array.from(
       document.querySelectorAll<HTMLElement>("[data-chapter]"),
@@ -55,16 +56,11 @@ function Proposal() {
 
     const measure = () => {
       frame = 0;
+      const readingLine = window.innerHeight * 0.35;
       let winner = chapters[0];
-      let mostSeen = -1;
 
       for (const chapter of chapters) {
-        const { top, bottom } = chapter.getBoundingClientRect();
-        const seen = Math.min(bottom, window.innerHeight) - Math.max(top, 0);
-        if (seen > mostSeen) {
-          mostSeen = seen;
-          winner = chapter;
-        }
+        if (chapter.getBoundingClientRect().top <= readingLine) winner = chapter;
       }
 
       const next = Number(winner.getAttribute("data-chapter"));
