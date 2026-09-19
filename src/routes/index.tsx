@@ -43,9 +43,8 @@ function Proposal() {
   const [seed, setSeed] = useState(0);
   const storyRef = useRef<HTMLElement | null>(null);
 
-  // Keep the top bar's chapter counter in step with wherever she has scrolled:
   // Keep the top bar's chapter counter in step with wherever she is reading:
-  // the last chapter to have passed a third of the way down the screen.
+  // the last chapter to have passed just under the top bar.
   useEffect(() => {
     const chapters = Array.from(
       document.querySelectorAll<HTMLElement>("[data-chapter]"),
