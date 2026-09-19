@@ -127,7 +127,7 @@ function Proposal() {
 
         {/* 02 — How we met */}
         <section
-          ref={storyRef as React.RefObject<HTMLElement>}
+          ref={storyRef}
           data-chapter="2"
           className="scroll-mt-16 border-y border-border bg-background px-6 py-28"
         >
@@ -193,7 +193,7 @@ function Proposal() {
                         loading="lazy"
                         width={1088}
                         height={720}
-                        className="sway aspect-[16/10] w-full object-cover"
+                        className="aspect-[16/10] w-full object-cover"
                       />
                     </div>
                   </div>
