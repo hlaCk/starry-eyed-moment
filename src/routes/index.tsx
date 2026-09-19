@@ -43,25 +43,46 @@ function Proposal() {
   const [seed, setSeed] = useState(0);
   const storyRef = useRef<HTMLElement | null>(null);
 
-  // Keep the top bar's chapter counter in step with wherever she has scrolled.
+  // Keep the top bar's chapter counter in step with wherever she has scrolled:
+  // the chapter with the most of its height on screen wins.
   useEffect(() => {
     const chapters = Array.from(
       document.querySelectorAll<HTMLElement>("[data-chapter]"),
     );
-    if (!chapters.length || typeof IntersectionObserver === "undefined") return;
+    if (!chapters.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const lead = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (lead) setActive(Number(lead.target.getAttribute("data-chapter")));
-      },
-      { threshold: [0.25, 0.5, 0.75] },
-    );
+    let frame = 0;
 
-    chapters.forEach((chapter) => observer.observe(chapter));
-    return () => observer.disconnect();
+    const measure = () => {
+      frame = 0;
+      let winner = chapters[0];
+      let mostSeen = -1;
+
+      for (const chapter of chapters) {
+        const { top, bottom } = chapter.getBoundingClientRect();
+        const seen = Math.min(bottom, window.innerHeight) - Math.max(top, 0);
+        if (seen > mostSeen) {
+          mostSeen = seen;
+          winner = chapter;
+        }
+      }
+
+      const next = Number(winner.getAttribute("data-chapter"));
+      setActive((current) => (current === next ? current : next));
+    };
+
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(measure);
+    };
+
+    measure();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
   }, []);
 
   const begin = () => {
