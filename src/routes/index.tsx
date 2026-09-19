@@ -96,7 +96,7 @@ function Proposal() {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
-      <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-sm">
+      <header className="sticky top-0 z-30 border-b border-border bg-background/92">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2">
             <span className="size-2.5 rounded-full bg-primary" />
@@ -263,7 +263,7 @@ function Proposal() {
                   <button
                     type="button"
                     onClick={answer}
-                    className="font-display rounded-full border border-night-foreground/25 px-10 py-4 text-sm font-medium uppercase tracking-[0.2em] transition-colors duration-300 hover:bg-night-foreground/10"
+                    className="font-display rounded-full bg-night-foreground px-10 py-4 text-sm font-medium uppercase tracking-[0.2em] text-night transition-colors duration-300 hover:bg-butter"
                   >
                     Once more
                   </button>
